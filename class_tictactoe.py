@@ -1,5 +1,6 @@
 import random
 from class_paint import Paint
+from time import sleep
 
 x = Paint('X')
 o = Paint('O')
@@ -15,6 +16,7 @@ class TicTacToe:
         self.cells = ['0' * (maxlen - len(i)) + i for i in cells]
         self.rows = [self.cells[i:i + size] for i in range(0, len(cells), size)]
         self.view = '\n'.join('-'.join(i) for i in self.rows)
+        self.moves = len(cells)
 
         self.score_x, self.score_o = 0, 0
         self.ai = ai
@@ -31,6 +33,7 @@ class TicTacToe:
         self.cells = ['0' * (maxlen - len(i)) + i for i in cells]
         self.rows = [self.cells[i:i + size] for i in range(0, len(cells), size)]
         self.view = '\n'.join('-'.join(i) for i in self.rows)
+        self.moves = len(cells)
 
     def move(self, move, player, opponent):
         # if self.ai:
@@ -38,11 +41,9 @@ class TicTacToe:
         #     self.view = self.view.replace(ai_move, player)
         #     self.cells[self.cells.index(ai_move)] = player*len(ai_move)
         #     return True
-        if move in self.cells:
-            self.view = self.view.replace(move, player*len(move))
-            self.cells[self.cells.index(move)] = player*len(move)
-            return True
-        return False
+        self.view = self.view.replace(move, player*len(move))
+        self.cells[self.cells.index(move)] = player*len(move)
+        self.moves -= 1
 
     def check_win(self, player: str):  # if win not 0 - upd score and display win and score, else False
         """ Determine whether the current board contains a win
@@ -57,12 +58,21 @@ class TicTacToe:
         if player == 'X' and win:
             self._reset()
             self.score_x += win
-            return self.display_victory('X'), self._display_score(), self.display_board()
+            return self._display_victory('X'), self._display_score(), sleep(1.5), self.display_board()
         elif win:
             self._reset()
             self.score_o += win
-            return self.display_victory('O'), self._display_score(), self.display_board()
+            return self._display_victory('O'), self._display_score(), sleep(1.5), self.display_board()
         return False
+
+    def draw(self):
+        brd = self.view
+        self.score_o += 0.5
+        self.score_x += 0.5
+        self._reset()
+        return print('\n\t' + '\n\t'.join(row.replace('X', x.yellow()).replace('O', o.yellow())
+                                          for row in brd.split('\n')) + '\n'), \
+            self._display_victory(), self._display_score(), sleep(1.5), self.display_board()
 
     # def _ai_move(self, playing_as: str, playing_vs: str) -> str:  # returns a move (1-9)
     #     """ Priority in choice of moves:
@@ -93,19 +103,14 @@ class TicTacToe:
 
     def display_board(self, draw=False):
         brd = self.view
-        if not draw:
-            return print('\n' + '\n'.join(row.replace('X', x.red()).replace('O', o.green())
-                                   for row in brd.split('\n')) + '\n')
-        else:
-            return print('\n' + '\n'.join(row.replace('X', x.yellow()).replace('O', o.yellow())
-                                   for row in brd.split('\n')) + '\n')
+        return print('\n\t' + '\n\t'.join(row.replace('X', x.red()).replace('O', o.green())
+                                          for row in brd.split('\n')) + '\n')
 
     def _display_score(self):
         """Display overall score"""
-        return print(f'{" " * 15}Score:\n'
-                     f'{" " * 15}{x.red()}: {self.score_x}\n'
-                     f'{" " * 15}{o.green()}: {self.score_o}\n'
-                     f'{"-" * 37}')
+        return print('\tScore:\n'
+                     f'\t{x.red()}: {self.score_x}\n'
+                     f'\t{o.green()}: {self.score_o}\n')
 
     @staticmethod
     def display_first_move(flag: bool):
@@ -115,12 +120,10 @@ class TicTacToe:
             print(f'{o.green()} is first to make a move!')
 
     @staticmethod
-    def display_victory(winner=None) -> print:
+    def _display_victory(winner=None) -> print:
         if winner == 'X':
-            print(f'{"-" * 37}\n', Paint(f'{"X Victory!" : ^37}').red() + f'\n{"-" * 37}')
+            print('\n\t', Paint("X Victory!").red(), '\n')
         elif winner == 'O':
-            print(f'{"-" * 37}\n',
-                  Paint(f'{"O Victory!" : ^37}').green() + f'\n{"-" * 37}')
+            print('\n\t', Paint("O Victory!").green(), '\n')
         else:
-            print(f'{"-" * 37}\n',
-                  Paint(f'{"Draw!" : ^37}').yellow() + f'\n{"-" * 37}')
+            print('\n\t', Paint("Draw!").yellow() + '\n')

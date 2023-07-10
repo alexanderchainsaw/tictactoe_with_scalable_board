@@ -24,7 +24,9 @@ def main():
                 continue
             game.move(x_move, player='X', opponent='O')
             game.display_board()
-            game.check_win('X')
+            if not game.check_win('X') and not game.moves:
+                game.draw()
+
             flag = False
         else:
             x_move = input(f"{o.green()}, enter your move: ")
@@ -32,7 +34,8 @@ def main():
                 continue
             game.move(x_move, player='O', opponent='X')
             game.display_board()
-            game.check_win('O')
+            if not game.check_win('O') and not game.moves:
+                game.draw()
             flag = True
 
 
