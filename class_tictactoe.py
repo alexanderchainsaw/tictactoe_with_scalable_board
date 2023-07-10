@@ -101,7 +101,7 @@ class TicTacToe:
     #     else:
     #         return '5' if '5' in self.cells else random.choice(self.cells)
 
-    def display_board(self, draw=False):
+    def display_board(self):
         brd = self.view
         return print('\n\t' + '\n\t'.join(row.replace('X', x.red()).replace('O', o.green())
                                           for row in brd.split('\n')) + '\n')
