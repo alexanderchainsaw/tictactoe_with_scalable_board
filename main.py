@@ -9,8 +9,10 @@ o = Paint('O')
 
 
 def main():
-    start_size = 3
+    start_size = 3  # becomes very slow around ~4k
     game = TicTacToe(size=start_size, ai=False, grow=True)
+    game.display_greeting()
+    sleep(1.5)
     flag = bool(getrandbits(1))
     game.display_first_move(flag=flag)
     game.display_board()
