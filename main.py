@@ -9,11 +9,9 @@ o = Paint('O')
 
 
 def main():
-    starting_size = 3
-    game = TicTacToe(size=starting_size, ai=False, grow=True)
+    start_size = 3
+    game = TicTacToe(size=start_size, ai=False, grow=True)
     flag = bool(getrandbits(1))
-    print(f'Starting...')
-    sleep(1.5)
     game.display_first_move(flag=flag)
     game.display_board()
 
