@@ -101,14 +101,20 @@ class TicTacToe:
 
     def display_board(self):
         brd = self.view
-        return print('\n\t' + '\n\t'.join(row.replace('X', x.red()).replace('O', o.green())
-                                          for row in brd.split('\n')) + '\n')
+        print('\n\t' + '\n\t'.join(row.replace('X', x.red()).replace('O', o.green())
+                                   for row in brd.split('\n')) + '\n')
 
     def _display_score(self):
         """Display overall score"""
-        return print('\tScore:\n'
-                     f'\t{x.red()}: {self.score_x}\n'
-                     f'\t{o.green()}: {self.score_o}\n')
+        print('\tScore:\n'
+              f'\t{x.red()}: {self.score_x}\n'
+              f'\t{o.green()}: {self.score_o}\n')
+
+    @staticmethod
+    def display_greeting():
+        print('Welcome to...\n')
+        sleep(1)
+        print( f'\t{Paint("Tic").red()}{Paint("Tac").green()}{Paint("Toe").cyan()}\n')
 
     @staticmethod
     def display_first_move(flag: bool):
