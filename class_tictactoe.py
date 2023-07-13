@@ -26,12 +26,11 @@ class TicTacToe:
         if self.grow:
             self.size += 1
         size = self.size
-        cells = [str(i) for i in range(self.size ** 2)]
-        maxlen = sorted((len(i) for i in cells), reverse=True)[0]
-        self.cells = ['0' * (maxlen - len(i)) + i for i in cells]
-        self.rows = [self.cells[i:i + size] for i in range(0, len(cells), size)]
+        maxlen = len(str((size ** 2) - 1))
+        self.cells = ['0' * (maxlen - len(str(i))) + str(i) for i in range(self.size ** 2)]
+        self.rows = [self.cells[i:i + size] for i in range(0, len(self.cells), size)]
         self.view = '\n'.join('-'.join(i) for i in self.rows)
-        self.moves = len(cells)
+        self.moves = len(self.cells)
 
     def move(self, move, player, opponent):
         # if self.ai:
