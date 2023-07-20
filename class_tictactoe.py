@@ -1,4 +1,3 @@
-import random
 from class_paint import Paint
 from time import sleep
 
@@ -7,17 +6,30 @@ o = Paint('O')
 
 
 class TicTacToe:
-    def __init__(self, size=3, ai=False, grow=False):
-        self.grow = grow
-        self.size = size
-        maxlen = len(str((size ** 2) - 1))
-        self.cells = ['0' * (maxlen - len(str(i))) + str(i) for i in range(self.size ** 2)]
-        self.rows = (self.cells[i:i + size] for i in range(0, len(self.cells), size))
-        self.view = '\n'.join('-'.join(i) for i in self.rows)
-        self.moves = len(self.cells)
+    def __init__(self, size=3, grow=False):
+        """Initialisation using size variable as dimensions for the generated board such as:
+        size=N will create a board of NxN size
+
+        grow: bool variable for determining the mode of the game:
+        if true, the size will be incremented by 1 each cycle of the game (each win or draw)
+
+        maxlen: int variable is the maximum length of a str cell number, needed for proper board display of any size,
+        used in cells generation: if current cell is shorter than maxlen, additional zeroes are added at the beginning:
+        if the longest cell is 100, the 1 cell becomes 001, 2 becomes 002 and so on
+
+        rows: two-dim array, generated to be joined into the view, which will be displayed as the final board
+
+        moves: integer count of all possible moves to be made on current board. Used for determining a draw:
+        if no moves are available and neither player won - it's a draw"""
+        self.grow: bool = grow
+        self.size: int = size
+        maxlen: int = len(str((size ** 2) - 1))
+        self.cells: [str] = ['0' * (maxlen - len(str(i))) + str(i) for i in range(self.size ** 2)]
+        self.rows: [[str]] = (self.cells[i:i + size] for i in range(0, len(self.cells), size))
+        self.view: str = '\n'.join('-'.join(i) for i in self.rows)
+        self.moves: int = len(self.cells)
 
         self.score_x, self.score_o = 0, 0
-        self.ai = ai
 
     def __str__(self):
         return str(self.view)
@@ -32,20 +44,18 @@ class TicTacToe:
         self.view = '\n'.join('-'.join(i) for i in self.rows)
         self.moves = len(self.cells)
 
-    def move(self, move, player, opponent):
-        # if self.ai:
-        #     ai_move = self._ai_move(playing_as=player, playing_vs=opponent)
-        #     self.view = self.view.replace(ai_move, player)
-        #     self.cells[self.cells.index(ai_move)] = player*len(ai_move)
-        #     return True
+    def move(self, move: str, player: str):
+        """move: str number of the cell
+        player: which player is making a move (X or O)"""
         self.view = self.view.replace(move, player*len(move))
         self.cells[self.cells.index(move)] = player*len(move)
         self.moves -= 1
 
     def check_win(self, player: str):  # if win not 0 - upd score and display win and score, else False
-        """ Determine whether the current board contains a win
-            by converting winning board slices into a set
-            If returned value is 2, then 2 win conditions reached == double win"""
+        """Determine whether the current board contains a win
+        by converting winning board slices into a set
+        If win is recorded, reset the board, increment winner score, display winner and score,
+        then after a short pause display fresh board"""
         cells = self.cells
         size = self.size
         wins = [cells[i::size] for i in range(size)] + [cells[i*size:(i*size)+size] for i in range(size)]
@@ -71,33 +81,6 @@ class TicTacToe:
                                           for row in brd.split('\n')) + '\n'), \
             self._display_victory(), self._display_score(), sleep(1.5), self.display_board()
 
-    # def _ai_move(self, playing_as: str, playing_vs: str) -> str:  # returns a move (1-9)
-    #     """ Priority in choice of moves:
-    #         Win -> Disrupt enemy win ->
-    #         -> Random secondary move (cell 5 is the priority) ->
-    #         -> Random move from available (cell 5 is the priority)"""
-    #     cells = self.cells
-    #     size = self.size
-    #     wins = [cells[i::size] for i in range(size)] + [cells[i * size:(i * size) + size] for i in range(size)]
-    #     wins.append(cells[::size + 1])
-    #     wins.append(cells[size - 1::size - 1][:-1])
-    #     win_moves, break_moves = '', ''
-    #     secondary_move = ''.join(''.join(i for i in j if i in '123456789')
-    #                              for j in wins if playing_as in j and playing_vs not in j)
-    #     for slce in wins:
-    #         if slce.count(playing_as) == 2:
-    #             win_moves += ''.join(i for i in slce if i in '123456789')
-    #         if slce.count(playing_vs) == 2:
-    #             break_moves += ''.join(i for i in slce if i in '123456789')
-    #     if win_moves:
-    #         return win_moves[0]
-    #     elif break_moves:
-    #         return break_moves[0]
-    #     elif secondary_move:
-    #         return '5' if '5' in secondary_move else random.choice(secondary_move)
-    #     else:
-    #         return '5' if '5' in self.cells else random.choice(self.cells)
-
     def display_board(self):
         brd = self.view
         print('\n\t' + '\n\t'.join(row.replace('X', x.red()).replace('O', o.green())
@@ -113,7 +96,7 @@ class TicTacToe:
     def display_greeting():
         print('Welcome to...\n')
         sleep(1)
-        print( f'\t{Paint("Tic").red()}{Paint("Tac").green()}{Paint("Toe").cyan()}\n')
+        print(f'\t{Paint("Tic").red()}{Paint("Tac").green()}{Paint("Toe").cyan()}\n')
 
     @staticmethod
     def display_first_move(flag: bool):
