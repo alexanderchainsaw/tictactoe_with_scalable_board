@@ -6,12 +6,14 @@ o = Paint('O')
 
 
 class TicTacToe:
-    def __init__(self, size=3, grow=False):
+    def __init__(self, size=3, grow=False, increment=1):
         """Initialisation using size variable as dimensions for the generated board such as:
         size=N will create a board of NxN size
 
         grow: bool variable for determining the mode of the game:
-        if true, the size will be incremented by 1 each cycle of the game (each win or draw)
+        if true, the size will be incremented by a set amount each cycle of the game (each win or draw)
+
+        increment: int by which amount the size will increase if grow=True
 
         maxlen: int variable is the maximum length of a str cell number, needed for proper board display of any size,
         used in cells generation: if current cell is shorter than maxlen, additional zeroes are added at the beginning:
@@ -21,8 +23,9 @@ class TicTacToe:
 
         moves: integer count of all possible moves to be made on current board. Used for determining a draw:
         if no moves are available and neither player won - it's a draw"""
-        self.grow: bool = grow
         self.size: int = size
+        self.grow: bool = grow
+        self.increment = increment
         maxlen: int = len(str((size ** 2) - 1))
         self.cells: [str] = ['0' * (maxlen - len(str(i))) + str(i) for i in range(self.size ** 2)]
         self.rows: [[str]] = (self.cells[i:i + size] for i in range(0, len(self.cells), size))
@@ -34,7 +37,7 @@ class TicTacToe:
     def _reset(self):
         """Resetting the board and associated variables, if grow=True - increment size by 1"""
         if self.grow:
-            self.size += 1
+            self.size += self.increment
         size = self.size
         maxlen = len(str((size ** 2) - 1))
         self.cells = ['0' * (maxlen - len(str(i))) + str(i) for i in range(self.size ** 2)]

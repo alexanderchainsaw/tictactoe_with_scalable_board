@@ -10,7 +10,8 @@ o = Paint('O')
 
 def main():
     start_size = 3  # becomes very slow at around ~4k
-    game = TicTacToe(size=start_size, grow=True)
+    grow_by = 1  # board growth rate (the size of the board will be incremented by this amount)
+    game = TicTacToe(size=start_size, grow=True, increment=grow_by)
     game.display_greeting()
     sleep(1.5)
     flag = bool(getrandbits(1))
