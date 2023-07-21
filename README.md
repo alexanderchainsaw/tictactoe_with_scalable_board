@@ -1,6 +1,6 @@
 # TicTacToe with scalable board
 
-Python implementation of the classic Tic Tac Toe game using custom TicTacToe class whcih supports board of any size.
+Python implementation of the classic Tic Tac Toe game using custom TicTacToe class which supports board of any size.
 
 ## Project Structure
 
@@ -20,5 +20,6 @@ The project consists of the following files:
 4. The game will prompt you to enter your moves alternately. Simply input the desired cell number to place your mark (X or O) on the board.
 5. The game will display the updated board after each move, and it will check for wins or draws to determine the game outcome.
 
-Feel free to explore and modify the code to suit your needs. Have fun!
 
+## Demo  
+![](demo_1.png) ![](demo_2.png) ![](demo_3.png) ![](demo_4.png) ![](demo_5.png) 
