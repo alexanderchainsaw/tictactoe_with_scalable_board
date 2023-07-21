@@ -65,8 +65,8 @@ class TicTacToe:
         wins.append(cells[size - 1::size - 1][:-1])
         win = sum(1 for slce in wins if len(set(slce)) == 1)
         if win:
+            self._reset()
             if player == 'X':
-                self._reset()
                 self.score_x += win
                 match win:
                     case 1:
@@ -79,7 +79,6 @@ class TicTacToe:
                         return self._display_victory('X', triple=True), \
                             self._display_score(), sleep(1.5), self.display_board()
             elif player == 'O':
-                self._reset()
                 self.score_o += win
                 match win:
                     case 1:
