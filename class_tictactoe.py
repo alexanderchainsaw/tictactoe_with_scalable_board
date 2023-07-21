@@ -64,14 +64,33 @@ class TicTacToe:
         wins.append(cells[::size + 1])
         wins.append(cells[size - 1::size - 1][:-1])
         win = sum(1 for slce in wins if len(set(slce)) == 1)
-        if player == 'X' and win:
-            self._reset()
-            self.score_x += win
-            return self._display_victory('X'), self._display_score(), sleep(1.5), self.display_board()
-        elif win:
-            self._reset()
-            self.score_o += win
-            return self._display_victory('O'), self._display_score(), sleep(1.5), self.display_board()
+        if win:
+            if player == 'X':
+                self._reset()
+                self.score_x += win
+                match win:
+                    case 1:
+                        return self._display_victory('X'), self._display_score(), \
+                            sleep(1.5), self.display_board()
+                    case 2:
+                        return self._display_victory('X', double=True), \
+                            self._display_score(), sleep(1.5), self.display_board()
+                    case 3:
+                        return self._display_victory('X', triple=True), \
+                            self._display_score(), sleep(1.5), self.display_board()
+            elif player == 'O':
+                self._reset()
+                self.score_o += win
+                match win:
+                    case 1:
+                        return self._display_victory('O'), self._display_score(), \
+                            sleep(1.5), self.display_board()
+                    case 2:
+                        return self._display_victory('O', double=True), \
+                            self._display_score(), sleep(1.5), self.display_board()
+                    case 3:
+                        return self._display_victory('O', triple=True), \
+                            self._display_score(), sleep(1.5), self.display_board()
         return False
 
     def draw(self):
@@ -112,11 +131,15 @@ class TicTacToe:
             print(f'{o.green()} is first to make a move!')
 
     @staticmethod
-    def _display_victory(winner=None):
+    def _display_victory(winner=None, double=False, triple=False):
         """Announce winner if such exists, if not - announce draw"""
         if winner == 'X':
             print('\n\t', Paint("X Victory!").red(), '\n')
         elif winner == 'O':
             print('\n\t', Paint("O Victory!").green(), '\n')
         else:
-            print('\n\t', Paint("Draw!").yellow() + '\n')
+            print('\n\t', Paint("Draw!").yellow(), '\n')
+        if double:
+            print('\n\t', Paint("DOUBLE WIN!").cyan(), '\n')
+        if triple:
+            print('\n\t', Paint("TRIPLE WIN!!!").magenta(), '\n')
