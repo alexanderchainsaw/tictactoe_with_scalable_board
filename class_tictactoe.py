@@ -8,7 +8,7 @@ o = Paint('O')
 class TicTacToe:
     def __init__(self, size=3, grow=False, increment=1):
         """Initialisation using size variable as dimensions for the generated board such as:
-        size=N will create a board of NxN size
+        size=N will create a board of N-by-N size
 
         grow: bool variable for determining the mode of the game:
         if true, the size will be incremented by a set amount each cycle of the game (each win or draw)
@@ -19,7 +19,8 @@ class TicTacToe:
         used in cells generation: if current cell is shorter than maxlen, additional zeroes are added at the beginning:
         if the longest cell is 100, the 1 cell becomes 001, 2 becomes 002 and so on
 
-        rows: two-dim array, generated to be joined into the view, which will be displayed as the final board
+        rows: two-dim array, generated to be joined into the view, which will be used by the display_board() method
+        to display the board into the terminal
 
         moves: integer count of all possible moves to be made on current board. Used for determining a draw:
         if no moves are available and neither player won - it's a draw"""
