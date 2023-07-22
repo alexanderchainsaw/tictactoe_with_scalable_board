@@ -36,6 +36,7 @@ class TicTacToe:
         self.score_x, self.score_o = 0, 0
 
     def start(self, flag):
+        """For first launch of the game, execute associated methods"""
         self._display_greeting()
         self._display_first_move(flag=flag)
         self._display_board()
@@ -53,11 +54,14 @@ class TicTacToe:
 
     def move(self, move: str, player: str):
         """move: str number of the cell
-        player: which player is making a move (X or O)"""
+
+        player: which player is making a move (X or O)
+
+        Replace cell with player move both in the view and in the cells, update moves and then display updated view"""
         self.view = self.view.replace(move, player*len(move))
         self.cells[self.cells.index(move)] = player*len(move)
         self.moves -= 1
-        self._display_board()  # display updated board after the move
+        self._display_board()
 
     def check_win(self, player: str):  # if win not 0 - upd score and display win and score, else False
         """Determine whether the current board contains a win
