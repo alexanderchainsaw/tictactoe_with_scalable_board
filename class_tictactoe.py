@@ -66,8 +66,11 @@ class TicTacToe:
     def check_win(self, player: str):  # if win not 0 - upd score and display win and score, else False
         """Determine whether the current board contains a win
         by converting winning board slices into a set
+
         If win is recorded, reset the board, increment winner score, display winner and score,
-        then after a short pause display fresh board"""
+        then after a short pause display fresh board
+
+        cases are in place to accommodate a scenario when a player reaches 2 or 3 wins at once"""
         cells = self.cells
         size = self.size
         wins = [cells[i::size] for i in range(size)] + [cells[i*size:(i*size)+size] for i in range(size)]
