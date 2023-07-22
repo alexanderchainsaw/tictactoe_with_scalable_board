@@ -1,5 +1,4 @@
 from random import getrandbits
-from time import sleep
 
 from class_tictactoe import TicTacToe
 from class_paint import Paint
@@ -22,7 +21,6 @@ def main():
             game.move(x_move, player='X')
             if not game.check_win('X') and not game.moves:
                 game.draw()
-
             flag = False
         else:
             o_move = input(f"{o.green()}, enter your move: ")
