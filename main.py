@@ -12,19 +12,14 @@ def main():
     start_size = 3  # becomes very slow at around ~4k
     grow_by = 1  # board growth rate (the size of the board will be incremented by this amount)
     game = TicTacToe(size=start_size, grow=True, increment=grow_by)
-    game.display_greeting()
-    sleep(1.5)
     flag = bool(getrandbits(1))
-    game.display_first_move(flag=flag)
-    game.display_board()
-
+    game.start(flag)
     while True:
         if flag:
             x_move = input(f"{x.red()}, enter your move: ")
             if x_move not in game.cells:
                 continue
             game.move(x_move, player='X')
-            game.display_board()
             if not game.check_win('X') and not game.moves:
                 game.draw()
 
@@ -34,7 +29,6 @@ def main():
             if x_move not in game.cells:
                 continue
             game.move(x_move, player='O')
-            game.display_board()
             if not game.check_win('O') and not game.moves:
                 game.draw()
             flag = True
