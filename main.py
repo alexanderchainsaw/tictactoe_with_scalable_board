@@ -19,16 +19,12 @@ def main():
             if x_move not in game.cells:
                 continue
             game.move(x_move, player='X')
-            if not game.check_win('X') and not game.moves:
-                game.draw()
             flag = False
         else:
             o_move = input(f"{o.green()}, enter your move: ")
             if o_move not in game.cells:
                 continue
             game.move(o_move, player='O')
-            if not game.check_win('O') and not game.moves:
-                game.draw()
             flag = True
 
 

@@ -57,13 +57,17 @@ class TicTacToe:
 
         player: which player is making a move (X or O)
 
-        Replace cell with player move both in the view and in the cells, update moves and then display updated view"""
+        Replace cell with player move both in the view and in the cells, update moves and then display updated view
+
+        Check for win and draw conditions"""
         self.view = self.view.replace(move, player*len(move))
         self.cells[self.cells.index(move)] = player*len(move)
         self.moves -= 1
         self._display_board()
+        if not self._check_win(player) and not self.moves:
+            self._draw()
 
-    def check_win(self, player: str):  # if win not 0 - upd score and display win and score, else False
+    def _check_win(self, player: str):  # if win not 0 - upd score and display win and score, else False
         """Determine whether the current board contains a win
         by converting winning board slices into a set
 
@@ -105,7 +109,7 @@ class TicTacToe:
                             self._display_score(), sleep(1.5), self._display_board()
         return False
 
-    def draw(self):
+    def _draw(self):
         """Draw scenario, increment both scores by half a point, call _reset(), print the board painted in yellow"""
         brd = self.view
         self.score_o += 0.5
