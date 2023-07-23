@@ -42,7 +42,7 @@ class TicTacToe:
         self._display_board()
 
     def _reset(self):
-        """Resetting the board and associated variables, if grow=True - increment size by 1"""
+        """Resetting the board and associated variables, if grow=True - increment size with a set amount"""
         if self.grow:
             self.size += self.increment
         size = self.size
@@ -67,14 +67,17 @@ class TicTacToe:
         if not self._check_win(player) and not self.moves:
             self._draw()
 
-    def _check_win(self, player: str):  # if win not 0 - upd score and display win and score, else False
+    def _check_win(self, player: str):
         """Determine whether the current board contains a win
-        by converting winning board slices into a set
+        by converting winning board slices into a set - if the length of the resulted set equals 1,
+        then it consists only of one element - O or X, which means the game is over.
+        To trigger the victory scenario, win variable needs to be >= 1, but there are possible scenarios
+        when the player can reach 2 or even 3 victories at once with one move. For this purpose,
+        there is a match case statement to trigger corresponding victory scenarios
 
-        If win is recorded, reset the board, increment winner score, display winner and score,
-        then after a short pause display fresh board
-
-        cases are in place to accommodate a scenario when a player reaches 2 or 3 wins at once"""
+        If any of the players won, no matter the case, the following set of commands is executed:
+        reset the board, increment winner score, display winner and score,
+        then after a short pause display fresh board"""
         cells = self.cells
         size = self.size
         wins = [cells[i::size] for i in range(size)] + [cells[i*size:(i*size)+size] for i in range(size)]
