@@ -69,7 +69,7 @@ class TicTacToe:
 
     def _check_win(self, player: str):
         """Determine whether the current board contains a win
-        by converting winning board slices into a set - if the length of the resulted set equals 1,
+        by converting winning board slices into a set() - if the length of the resulted set equals 1,
         then it consists only of one element - O or X, which means the game is over.
         To trigger the victory scenario, win variable needs to be >= 1, but there are possible scenarios
         when the player can reach 2 or even 3 victories at once with one move. For this purpose,
@@ -80,9 +80,11 @@ class TicTacToe:
         then after a short pause display fresh board"""
         cells = self.cells
         size = self.size
+        # gathering winning slices for any size of the board:
         wins = [cells[i::size] for i in range(size)] + [cells[i*size:(i*size)+size] for i in range(size)]
         wins.append(cells[::size + 1])
         wins.append(cells[size - 1::size - 1][:-1])
+        # counting wins by set() conversion:
         win = sum(1 for slce in wins if len(set(slce)) == 1)
         if win:
             self._reset()
