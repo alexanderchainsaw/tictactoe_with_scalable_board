@@ -17,12 +17,14 @@ def main():
         if flag:
             x_move = input(f"{x.red()}, enter your move: ")
             if x_move not in game.cells:
+                print("Invalid move. Try again.")
                 continue
             game.move(x_move, player='X')
             flag = False
         else:
             o_move = input(f"{o.green()}, enter your move: ")
             if o_move not in game.cells:
+                print("Invalid move. Try again.")
                 continue
             game.move(o_move, player='O')
             flag = True
