@@ -1,6 +1,7 @@
 from class_paint import Paint
 from time import sleep
 
+
 x = Paint('X')
 o = Paint('O')
 
@@ -50,6 +51,7 @@ class TicTacToe:
         self.rows = [self.cells[i:i + size] for i in range(0, len(self.cells), size)]
         self.view = '\n'.join('-'.join(i) for i in self.rows)
         self.moves = len(self.cells)
+        self._clear_terminal()
 
     def move(self, move: str, player: str):
         """move: str number of the cell
@@ -59,6 +61,7 @@ class TicTacToe:
         Replace cell with player move both in the view and in the cells, update moves and then display updated view
 
         Check for win and draw conditions"""
+        self._clear_terminal()
         self.view = self.view.replace(move, player*len(move))
         self.cells[self.cells.index(move)] = player*len(move)
         self.moves -= 1
@@ -164,14 +167,13 @@ class TicTacToe:
     @staticmethod
     def collect_size():
         while True:
-            size = input("\nEnter starting size of the board: ")
             try:
-                size = int(size)
+                size = int(input("\nEnter starting size of the board: "))
             except ValueError:
-                print("\nInvalid board size.\nPlease enter valid number in range 1-1000.")
+                print("\nInvalid board size.\nPlease enter valid number in range 3-1000.")
                 continue
-            if size > 1000:
-                print("\nInvalid board size.\nPlease enter valid number in range 1-1000.")
+            if size > 1000 or size < 3:
+                print("\nInvalid board size.\nPlease enter valid number in range 3-1000.")
                 continue
             else:
                 return size
