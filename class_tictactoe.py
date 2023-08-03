@@ -51,7 +51,6 @@ class TicTacToe:
         self.rows = [self.cells[i:i + size] for i in range(0, len(self.cells), size)]
         self.view = '\n'.join('-'.join(i) for i in self.rows)
         self.moves = len(self.cells)
-        self._clear_terminal()
 
     def move(self, move: str, player: str):
         """move: str number of the cell
@@ -61,7 +60,6 @@ class TicTacToe:
         Replace cell with player move both in the view and in the cells, update moves and then display updated view
 
         Check for win and draw conditions"""
-        self._clear_terminal()
         self.view = self.view.replace(move, player*len(move))
         self.cells[self.cells.index(move)] = player*len(move)
         self.moves -= 1
