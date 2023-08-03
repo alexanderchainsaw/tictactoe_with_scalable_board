@@ -88,30 +88,18 @@ class TicTacToe:
         win = sum(1 for slce in wins if len(set(slce)) == 1)
         if win:
             self._reset()
-            if player == 'X':
-                self.score_x += win
-                match win:
-                    case 1:
-                        return self._display_victory('X'), self._display_score(), \
-                            sleep(1.5), self._display_board()
-                    case 2:
-                        return self._display_victory('X', double=True), \
-                            self._display_score(), sleep(1.5), self._display_board()
-                    case 3:
-                        return self._display_victory('X', triple=True), \
-                            self._display_score(), sleep(1.5), self._display_board()
-            elif player == 'O':
-                self.score_o += win
-                match win:
-                    case 1:
-                        return self._display_victory('O'), self._display_score(), \
-                            sleep(1.5), self._display_board()
-                    case 2:
-                        return self._display_victory('O', double=True), \
-                            self._display_score(), sleep(1.5), self._display_board()
-                    case 3:
-                        return self._display_victory('O', triple=True), \
-                            self._display_score(), sleep(1.5), self._display_board()
+            self._update_score(player, win)
+            match win:
+                case 1:
+                    return self._display_victory(player), self._display_score(), \
+                        sleep(1.5), self._display_board()
+                case 2:
+                    return self._display_victory(player, double=True), \
+                        self._display_score(), sleep(1.5), self._display_board()
+                case 3:
+                    return self._display_victory(player, triple=True), \
+                        self._display_score(), sleep(1.5), self._display_board()
+
         return False
 
     def _draw(self):
