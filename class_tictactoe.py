@@ -37,7 +37,6 @@ class TicTacToe:
 
     def start(self, flag):
         """For first launch of the game, execute associated methods"""
-        self._display_greeting()
         self._display_first_move(flag=flag)
         self._display_board()
 
@@ -133,7 +132,7 @@ class TicTacToe:
               f'\t{o.green()}: {self.score_o}\n')
 
     @staticmethod
-    def _display_greeting():
+    def display_greeting():
         """Display pretty greeting"""
         print('Welcome to...\n')
         sleep(1)
@@ -161,3 +160,18 @@ class TicTacToe:
             print('\n\t', Paint("DOUBLE WIN!").cyan(), '\n')
         if triple:
             print('\n\t', Paint("TRIPLE WIN!!!").magenta(), '\n')
+
+    @staticmethod
+    def collect_size():
+        while True:
+            size = input("\nEnter starting size of the board: ")
+            try:
+                size = int(size)
+            except ValueError:
+                print("\nInvalid board size.\nPlease enter valid number in range 1-1000.")
+                continue
+            if size > 1000:
+                print("\nInvalid board size.\nPlease enter valid number in range 1-1000.")
+                continue
+            else:
+                return size
