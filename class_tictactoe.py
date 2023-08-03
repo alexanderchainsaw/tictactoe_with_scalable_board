@@ -130,6 +130,14 @@ class TicTacToe:
         print('\n\t' + '\n\t'.join(row.replace('X', x.red()).replace('O', o.green())
                                    for row in brd.split('\n')) + '\n')
 
+    def _update_score(self, player, points):
+        """Update score of a player."""
+        match player:
+            case 'X':
+                self.score_x += points
+            case 'O':
+                self.score_o += points
+
     def _display_score(self):
         """Display overall score"""
         print('\tScore:\n'
