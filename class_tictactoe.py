@@ -38,8 +38,8 @@ class TicTacToe:
 
     def start(self, flag):
         """For first launch of the game, execute associated methods"""
-        self._display_first_move(flag=flag)
-        self._display_board()
+        self.Display.first_to_move(flag=flag)
+        self.Display.board(self.view)
 
     def _reset(self):
         """Resetting the board and associated variables, if grow=True - increment size with a set amount"""
@@ -63,7 +63,7 @@ class TicTacToe:
         self.view = self.view.replace(move, player*len(move))
         self.cells[self.cells.index(move)] = player*len(move)
         self.moves -= 1
-        self._display_board()
+        self.Display.board(self.view)
         if not self._check_win(player) and not self.moves:
             self._draw()
 
@@ -91,14 +91,14 @@ class TicTacToe:
             self._update_score(player, win)
             match win:
                 case 1:
-                    return self._display_victory(player), self._display_score(), \
-                        sleep(1.5), self._display_board()
+                    return self.Display.victory(player), self._display_score(), \
+                        sleep(1.5), self.Display.board(self.view)
                 case 2:
-                    return self._display_victory(player, double=True), \
-                        self._display_score(), sleep(1.5), self._display_board()
+                    return self.Display.victory(player, double=True), \
+                        self._display_score(), sleep(1.5), self.Display.board(self.view)
                 case 3:
-                    return self._display_victory(player, triple=True), \
-                        self._display_score(), sleep(1.5), self._display_board()
+                    return self.Display.victory(player, triple=True), \
+                        self._display_score(), sleep(1.5), self.Display.board(self.view)
 
         return False
 
@@ -110,13 +110,7 @@ class TicTacToe:
         self._reset()
         return print('\n\t' + '\n\t'.join(row.replace('X', x.yellow()).replace('O', o.yellow())
                                           for row in brd.split('\n')) + '\n'), \
-            self._display_victory(), self._display_score(), sleep(1.5), self._display_board()
-
-    def _display_board(self):
-        """For displaying the board, replaces player-placed X's and O's with painted objects"""
-        brd = self.view
-        print('\n\t' + '\n\t'.join(row.replace('X', x.red()).replace('O', o.green())
-                                   for row in brd.split('\n')) + '\n')
+            self.Display.victory(), self._display_score(), sleep(1.5), self.Display.board(self.view)
 
     def _update_score(self, player, points):
         """Update score of a player."""
@@ -133,36 +127,6 @@ class TicTacToe:
               f'\t{o.green()}: {self.score_o}\n')
 
     @staticmethod
-    def display_greeting():
-        """Display pretty greeting"""
-        print('Welcome to...\n')
-        sleep(1)
-        print(f'\t{Paint("Tic").red()}{Paint("Tac").green()}{Paint("Toe").cyan()}\n')
-        sleep(1)
-
-    @staticmethod
-    def _display_first_move(flag: bool):
-        """Announce who is the first to make a move"""
-        if flag:
-            print(f'{x.red()} is first to make a move!')
-        else:
-            print(f'{o.green()} is first to make a move!')
-
-    @staticmethod
-    def _display_victory(winner=None, double=False, triple=False):
-        """Announce winner if such exists, if not - announce draw"""
-        if winner == 'X':
-            print('\n\t', Paint("X Victory!").red(), '\n')
-        elif winner == 'O':
-            print('\n\t', Paint("O Victory!").green(), '\n')
-        else:
-            print('\n\t', Paint("Draw!").yellow(), '\n')
-        if double:
-            print('\n\t', Paint("DOUBLE WIN!").cyan(), '\n')
-        if triple:
-            print('\n\t', Paint("TRIPLE WIN!!!").magenta(), '\n')
-
-    @staticmethod
     def collect_size():
         while True:
             try:
@@ -175,3 +139,45 @@ class TicTacToe:
                 continue
             else:
                 return size
+
+    class Display:
+        def __init__(self):
+            pass
+
+        @staticmethod
+        def board(view):
+            """For displaying the board, replaces player-placed X's and O's with painted objects"""
+            print('\n\t' + '\n\t'.join(row.replace('X', x.red()).replace('O', o.green())
+                                       for row in view.split('\n')) + '\n')
+
+        @staticmethod
+        def greeting():
+            """Display pretty greeting"""
+            print('Welcome to...\n')
+            sleep(1)
+            print(f'\t{Paint("Tic").red()}{Paint("Tac").green()}{Paint("Toe").cyan()}\n')
+            sleep(1)
+
+        @staticmethod
+        def first_to_move(flag: bool):
+            """Announce who is the first to make a move"""
+            if flag:
+                print(f'{x.red()} is first to make a move!')
+            else:
+                print(f'{o.green()} is first to make a move!')
+
+        @staticmethod
+        def victory(winner=None, double=False, triple=False):
+            """Announce winner if such exists, if not - announce draw"""
+            if winner == 'X':
+                print('\n\t', Paint("X Victory!").red(), '\n')
+            elif winner == 'O':
+                print('\n\t', Paint("O Victory!").green(), '\n')
+            else:
+                print('\n\t', Paint("Draw!").yellow(), '\n')
+            if double:
+                print('\n\t', Paint("DOUBLE WIN!").cyan(), '\n')
+            if triple:
+                print('\n\t', Paint("TRIPLE WIN!!!").magenta(), '\n')
+
+

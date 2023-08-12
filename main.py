@@ -8,7 +8,7 @@ o = Paint('O')
 
 
 def main():
-    TicTacToe.display_greeting()
+    TicTacToe.Display.greeting()
     game = TicTacToe(size=TicTacToe.collect_size(), grow=True)
     flag = bool(getrandbits(1))
     game.start(flag)
