@@ -91,14 +91,14 @@ class TicTacToe:
             self._update_score(player, win)
             match win:
                 case 1:
-                    return self.Display.victory(player), self._display_score(), \
+                    return self.Display.victory(player), self.Display.score(self.score_x, self.score_o), \
                         sleep(1.5), self.Display.board(self.view)
                 case 2:
                     return self.Display.victory(player, double=True), \
-                        self._display_score(), sleep(1.5), self.Display.board(self.view)
+                        self.Display.score(self.score_x, self.score_o), sleep(1.5), self.Display.board(self.view)
                 case 3:
                     return self.Display.victory(player, triple=True), \
-                        self._display_score(), sleep(1.5), self.Display.board(self.view)
+                        self.Display.score(self.score_x, self.score_o), sleep(1.5), self.Display.board(self.view)
 
         return False
 
@@ -110,7 +110,7 @@ class TicTacToe:
         self._reset()
         return print('\n\t' + '\n\t'.join(row.replace('X', x.yellow()).replace('O', o.yellow())
                                           for row in brd.split('\n')) + '\n'), \
-            self.Display.victory(), self._display_score(), sleep(1.5), self.Display.board(self.view)
+            self.Display.victory(), self.Display.score(self.score_x, self.score_o), sleep(1.5), self.Display.board(self.view)
 
     def _update_score(self, player, points):
         """Update score of a player."""
@@ -119,12 +119,6 @@ class TicTacToe:
                 self.score_x += points
             case 'O':
                 self.score_o += points
-
-    def _display_score(self):
-        """Display overall score"""
-        print('\tScore:\n'
-              f'\t{x.red()}: {self.score_x}\n'
-              f'\t{o.green()}: {self.score_o}\n')
 
     @staticmethod
     def collect_size():
@@ -141,9 +135,6 @@ class TicTacToe:
                 return size
 
     class Display:
-        def __init__(self):
-            pass
-
         @staticmethod
         def board(view):
             """For displaying the board, replaces player-placed X's and O's with painted objects"""
@@ -179,5 +170,12 @@ class TicTacToe:
                 print('\n\t', Paint("DOUBLE WIN!").cyan(), '\n')
             if triple:
                 print('\n\t', Paint("TRIPLE WIN!!!").magenta(), '\n')
+
+        @staticmethod
+        def score(score_x, score_o):
+            """Display overall score"""
+            print('\tScore:\n'
+                  f'\t{x.red()}: {score_x}\n'
+                  f'\t{o.green()}: {score_o}\n')
 
 
