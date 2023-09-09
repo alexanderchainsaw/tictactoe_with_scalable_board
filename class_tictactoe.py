@@ -2,46 +2,47 @@ from class_paint import Paint
 from time import sleep
 
 
-x = Paint('X')
-o = Paint('O')
+x: Paint = Paint('X')
+o: Paint = Paint('O')
 
 
 class TicTacToe:
-    def __init__(self, size=3, grow=False, increment=1):
+    def __init__(self, size: int = 3, grow: bool = False, increment: int = 1):
         """Initialisation using size variable as dimensions for the generated board such as:
         size=N will create a board of N-by-N size
 
         grow: bool variable for determining the mode of the game:
         if true, the size will be incremented by a set amount each cycle of the game (each win or draw)
 
-        increment: int by which amount the size will increase if grow=True
+        * increment: int by which amount the size will increase if grow=True
 
-        maxlen: int variable is the maximum length of a str cell number, needed for proper board display of any size,
+        * maxlen: int variable is the maximum length of a str cell number, needed for proper board display of any size,
         used in cells generation: if current cell is shorter than maxlen, additional zeroes are added at the beginning:
         if the longest cell is 100, the 1 cell becomes 001, 2 becomes 002 and so on
 
-        rows: two-dim array, generated to be joined into the view, which will be used by the display_board() method
+        * rows: two-dim array, generated to be joined into the view, which will be used by the display_board() method
         to display the board into the terminal
 
-        moves: integer count of all possible moves to be made on current board. Used for determining a draw:
+        * moves: integer count of all possible moves to be made on current board. Used for determining a draw:
         if no moves are available and neither player won - it's a draw"""
         self.size: int = size
         self.grow: bool = grow
         self.increment = increment
         maxlen: int = len(str((size ** 2) - 1))
         self.cells: [str] = ['0' * (maxlen - len(str(i))) + str(i) for i in range(self.size ** 2)]
-        self.rows: [[str]] = (self.cells[i:i + size] for i in range(0, len(self.cells), size))
+        self.rows: [list[str]] = (self.cells[i:i + size] for i in range(0, len(self.cells), size))
         self.view: str = '\n'.join('-'.join(i) for i in self.rows)
         self.moves: int = len(self.cells)
 
-        self.score_x, self.score_o = 0, 0
+        self.score_x: int = 0
+        self.score_o: int = 0
 
-    def start(self, flag):
+    def start(self, flag: bool) -> None:
         """For first launch of the game, execute associated methods"""
         self.Display.first_to_move(flag=flag)
         self.Display.board(self.view)
 
-    def _reset(self):
+    def _reset(self) -> None:
         """Resetting the board and associated variables, if grow=True - increment size with a set amount"""
         if self.grow:
             self.size += self.increment
@@ -52,7 +53,7 @@ class TicTacToe:
         self.view = '\n'.join('-'.join(i) for i in self.rows)
         self.moves = len(self.cells)
 
-    def move(self, move: str, player: str):
+    def move(self, move: str, player: str) -> None:
         """move: str number of the cell
 
         player: which player is making a move (X or O)
@@ -67,7 +68,7 @@ class TicTacToe:
         if not self._check_win(player) and not self.moves:
             self._draw()
 
-    def _check_win(self, player: str):
+    def _check_win(self, player: str) -> tuple | bool:
         """Determine whether the current board contains a win
         by converting winning board slices into a set() - if the length of the resulted set equals 1,
         then it consists only of one element - O or X, which means the game is over.
@@ -102,7 +103,7 @@ class TicTacToe:
 
         return False
 
-    def _draw(self):
+    def _draw(self) -> tuple:
         """Draw scenario, increment both scores by half a point, call _reset(), print the board painted in yellow"""
         brd = self.view
         self.score_o += 0.5
@@ -112,7 +113,7 @@ class TicTacToe:
                                           for row in brd.split('\n')) + '\n'), \
             self.Display.victory(), self.Display.score(self.score_x, self.score_o), sleep(1.5), self.Display.board(self.view)
 
-    def _update_score(self, player, points):
+    def _update_score(self, player: str, points: int) -> None:
         """Update score of a player."""
         match player:
             case 'X':
@@ -121,7 +122,7 @@ class TicTacToe:
                 self.score_o += points
 
     @staticmethod
-    def collect_size():
+    def collect_size() -> int:
         while True:
             try:
                 size = int(input("\nEnter starting size of the board: "))
@@ -136,13 +137,13 @@ class TicTacToe:
 
     class Display:
         @staticmethod
-        def board(view):
+        def board(view: str) -> None:
             """For displaying the board, replaces player-placed X's and O's with painted objects"""
             print('\n\t' + '\n\t'.join(row.replace('X', x.red()).replace('O', o.green())
                                        for row in view.split('\n')) + '\n')
 
         @staticmethod
-        def greeting():
+        def greeting() -> None:
             """Display pretty greeting"""
             print('Welcome to...\n')
             sleep(1)
@@ -150,7 +151,7 @@ class TicTacToe:
             sleep(1)
 
         @staticmethod
-        def first_to_move(flag: bool):
+        def first_to_move(flag: bool) -> None:
             """Announce who is the first to make a move"""
             if flag:
                 print(f'{x.red()} is first to make a move!')
@@ -158,7 +159,7 @@ class TicTacToe:
                 print(f'{o.green()} is first to make a move!')
 
         @staticmethod
-        def victory(winner=None, double=False, triple=False):
+        def victory(winner: str = None, double: bool = False, triple: bool = False) -> None:
             """Announce winner if such exists, if not - announce draw"""
             if winner == 'X':
                 print('\n\t', Paint("X Victory!").red(), '\n')
@@ -172,7 +173,7 @@ class TicTacToe:
                 print('\n\t', Paint("TRIPLE WIN!!!").magenta(), '\n')
 
         @staticmethod
-        def score(score_x, score_o):
+        def score(score_x: int, score_o: int) -> None:
             """Display overall score"""
             print('\tScore:\n'
                   f'\t{x.red()}: {score_x}\n'
