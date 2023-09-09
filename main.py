@@ -3,14 +3,14 @@ from random import getrandbits
 from class_tictactoe import TicTacToe
 from class_paint import Paint
 
-x = Paint('X')
-o = Paint('O')
+x: Paint = Paint('X')
+o: Paint = Paint('O')
 
 
 def main():
     TicTacToe.Display.greeting()
-    game = TicTacToe(size=TicTacToe.collect_size(), grow=True)
-    flag = bool(getrandbits(1))
+    game: TicTacToe = TicTacToe(size=TicTacToe.collect_size(), grow=True)
+    flag: bool = bool(getrandbits(1))
     game.start(flag)
     while True:
         if flag:
