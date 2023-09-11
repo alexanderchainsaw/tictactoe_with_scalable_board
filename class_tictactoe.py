@@ -1,6 +1,6 @@
 from class_paint import Paint
 from time import sleep
-
+from typing import Generator
 
 x: Paint = Paint('X')
 o: Paint = Paint('O')
@@ -29,8 +29,8 @@ class TicTacToe:
         self.grow: bool = grow
         self.increment = increment
         maxlen: int = len(str((size ** 2) - 1))
-        self.cells: [str] = ['0' * (maxlen - len(str(i))) + str(i) for i in range(self.size ** 2)]
-        self.rows: [list[str]] = (self.cells[i:i + size] for i in range(0, len(self.cells), size))
+        self.cells: list[str] = ['0' * (maxlen - len(str(i))) + str(i) for i in range(self.size ** 2)]
+        self.rows: Generator[list[str], None, None] = (self.cells[i:i + size] for i in range(0, len(self.cells), size))
         self.view: str = '\n'.join('-'.join(i) for i in self.rows)
         self.moves: int = len(self.cells)
 
@@ -49,7 +49,7 @@ class TicTacToe:
         size = self.size
         maxlen = len(str((size ** 2) - 1))
         self.cells = ['0' * (maxlen - len(str(i))) + str(i) for i in range(self.size ** 2)]
-        self.rows = [self.cells[i:i + size] for i in range(0, len(self.cells), size)]
+        self.rows = (self.cells[i:i + size] for i in range(0, len(self.cells), size))
         self.view = '\n'.join('-'.join(i) for i in self.rows)
         self.moves = len(self.cells)
 
@@ -111,7 +111,8 @@ class TicTacToe:
         self._reset()
         return print('\n\t' + '\n\t'.join(row.replace('X', x.yellow()).replace('O', o.yellow())
                                           for row in brd.split('\n')) + '\n'), \
-            self.Display.victory(), self.Display.score(self.score_x, self.score_o), sleep(1.5), self.Display.board(self.view)
+            self.Display.victory(), self.Display.score(self.score_x, self.score_o), \
+            sleep(1.5), self.Display.board(self.view)
 
     def _update_score(self, player: str, points: int) -> None:
         """Update score of a player."""
@@ -178,5 +179,3 @@ class TicTacToe:
             print('\tScore:\n'
                   f'\t{x.red()}: {score_x}\n'
                   f'\t{o.green()}: {score_o}\n')
-
-
