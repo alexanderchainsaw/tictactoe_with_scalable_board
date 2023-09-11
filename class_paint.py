@@ -8,30 +8,30 @@ class Paint:
         """String object needed for initialization"""
         self.strng = strng
 
-        self._red = Fore.RED
-        self._green = Fore.GREEN
-        self._yellow = Fore.LIGHTYELLOW_EX
-        self._cyan = Fore.LIGHTCYAN_EX
-        self._magenta = Fore.MAGENTA
+        self.__red = Fore.RED
+        self.__green = Fore.GREEN
+        self.__yellow = Fore.LIGHTYELLOW_EX
+        self.__cyan = Fore.LIGHTCYAN_EX
+        self.__magenta = Fore.MAGENTA
 
-        self.reset = Style.RESET_ALL
+        self.__reset = Style.RESET_ALL
 
     def red(self):
         """Paint object red"""
-        return f"{self._red}{self.strng}{self.reset}"
+        return f"{self.__red}{self.strng}{self.__reset}"
 
     def green(self):
         """Paint object green"""
-        return f"{self._green}{self.strng}{self.reset}"
+        return f"{self.__green}{self.strng}{self.__reset}"
 
     def yellow(self):
         """Paint object yellow"""
-        return f"{self._yellow}{self.strng}{self.reset}"
+        return f"{self.__yellow}{self.strng}{self.__reset}"
 
     def cyan(self):
         """Paint object cyan"""
-        return f"{self._cyan}{self.strng}{self.reset}"
+        return f"{self.__cyan}{self.strng}{self.__reset}"
 
     def magenta(self):
         """Paint object magenta"""
-        return f"{self._magenta}{self.strng}{self.reset}"
+        return f"{self.__magenta}{self.strng}{self.__reset}"
