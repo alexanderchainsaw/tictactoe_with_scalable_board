@@ -37,10 +37,15 @@ class TicTacToe:
         self.score_x: int = 0
         self.score_o: int = 0
 
+    def __str__(self):
+        """Overloading __str__ method to print out current board"""
+        return '\n\t' + '\n\t'.join(row.replace('X', x.red()).replace('O', o.green())
+                                    for row in self.view.split('\n')) + '\n'
+
     def start(self, flag: bool) -> None:
         """For first launch of the game, execute associated methods"""
         self.Display.first_to_move(flag=flag)
-        self.Display.board(self.view)
+        print(self)
 
     def _reset(self) -> None:
         """Resetting the board and associated variables, if grow=True - increment size with a set amount"""
@@ -55,16 +60,13 @@ class TicTacToe:
 
     def move(self, move: str, player: str) -> None:
         """move: str number of the cell
-
         player: which player is making a move (X or O)
-
         Replace cell with player move both in the view and in the cells, update moves and then display updated view
-
         Check for win and draw conditions"""
         self.view = self.view.replace(move, player*len(move))
         self.cells[self.cells.index(move)] = player*len(move)
         self.moves -= 1
-        self.Display.board(self.view)
+        print(self)
         if not self._check_win(player) and not self.moves:
             self._draw()
 
@@ -92,14 +94,14 @@ class TicTacToe:
             self._update_score(player, win)
             match win:
                 case 1:
-                    return self.Display.victory(player), self.Display.score(self.score_x, self.score_o), \
-                        sleep(1.5), self.Display.board(self.view)
+                    return (self.Display.victory(player), self.Display.score(self.score_x, self.score_o),
+                            sleep(1.5), print(self))
                 case 2:
-                    return self.Display.victory(player, double=True), \
-                        self.Display.score(self.score_x, self.score_o), sleep(1.5), self.Display.board(self.view)
+                    return (self.Display.victory(player, double=True),
+                            self.Display.score(self.score_x, self.score_o), sleep(1.5), print(self))
                 case 3:
-                    return self.Display.victory(player, triple=True), \
-                        self.Display.score(self.score_x, self.score_o), sleep(1.5), self.Display.board(self.view)
+                    return (self.Display.victory(player, triple=True),
+                            self.Display.score(self.score_x, self.score_o), sleep(1.5), print(self))
 
         return False
 
@@ -109,10 +111,10 @@ class TicTacToe:
         self.score_o += 0.5
         self.score_x += 0.5
         self._reset()
-        return print('\n\t' + '\n\t'.join(row.replace('X', x.yellow()).replace('O', o.yellow())
-                                          for row in brd.split('\n')) + '\n'), \
-            self.Display.victory(), self.Display.score(self.score_x, self.score_o), \
-            sleep(1.5), self.Display.board(self.view)
+        return (print('\n\t' + '\n\t'.join(row.replace('X', x.yellow()).replace('O', o.yellow())
+                for row in brd.split('\n')) + '\n'), self.Display.victory(),
+                self.Display.score(self.score_x, self.score_o),
+                sleep(1.5), print(self))
 
     def _update_score(self, player: str, points: int) -> None:
         """Update score of a player."""
@@ -137,12 +139,6 @@ class TicTacToe:
                 return size
 
     class Display:
-        @staticmethod
-        def board(view: str) -> None:
-            """For displaying the board, replaces player-placed X's and O's with painted objects"""
-            print('\n\t' + '\n\t'.join(row.replace('X', x.red()).replace('O', o.green())
-                                       for row in view.split('\n')) + '\n')
-
         @staticmethod
         def greeting() -> None:
             """Display pretty greeting"""
